@@ -1,0 +1,5 @@
+waktu,tag,model,fitur,protokol,seed,epochs,best_epoch,val_acc,test_acc,precision_macro,recall_macro,f1_macro,track_acc,n_params,train_min,hp
+2026-11-01 16:53,replikasi,CNN+LSTM,mel_1024,A_segmen,42,50,2,0.3674,0.3383,0.2568,0.3382,0.2564,0.3426,2193802,24.29,"{""lr"": 0.001, ""batch_size"": 64, ""dense_units"": 128, ""dropout"": 0.25, ""clipnorm"": null}"
+2026-11-01 22:07,replikasi,CNN+LSTM,mel_1024,A_segmen,43,50,3,0.3123,0.3113,0.2446,0.3111,0.2487,0.3164,2193802,24.0,"{""lr"": 0.001, ""batch_size"": 64, ""dense_units"": 128, ""dropout"": 0.25, ""clipnorm"": null}"
+2026-11-01 22:31,replikasi,CNN+LSTM,mel_1024,A_segmen,44,50,5,0.2382,0.2292,0.1299,0.2291,0.139,0.2392,2193802,24.02,"{""lr"": 0.001, ""batch_size"": 64, ""dense_units"": 128, ""dropout"": 0.25, ""clipnorm"": null}"
+2026-11-01 22:56,clipnorm,CNN+LSTM,mel_1024,A_segmen,42,50,50,0.9399,0.9399,0.941,0.94,0.9399,0.9552,2193802,24.94,"{""lr"": 0.001, ""batch_size"": 64, ""dense_units"": 128, ""dropout"": 0.25, ""clipnorm"": 1.0}"

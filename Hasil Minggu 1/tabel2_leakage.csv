@@ -1,0 +1,5 @@
+model,A per-segmen,B per-lagu,B (level lagu),Selisih A−B
+CNN+LSTM,33.83,80.5,87.0,-46.67
+CNN+Bi-LSTM,94.29,81.4,86.0,12.89
+CNN+GRU,95.7,78.8,84.0,16.9
+CNN+Bi-GRU,94.19,77.6,82.0,16.59

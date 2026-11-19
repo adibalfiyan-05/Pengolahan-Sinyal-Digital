@@ -1,0 +1,5 @@
+model,n_fft 1024,n_fft 2048,Selisih
+CNN+LSTM,33.83,91.89,58.06
+CNN+Bi-LSTM,94.29,93.99,-0.3
+CNN+GRU,95.7,93.29,-2.41
+CNN+Bi-GRU,94.19,93.99,-0.2

@@ -1,0 +1,80 @@
+[
+  {
+    "aspek": "Dataset",
+    "paper": "GTZAN 1000 klip, format mp3",
+    "kita": "Versi Kaggle (andradaolteanu), .wav; 999 klip valid (file rusak dibuang)",
+    "alasan": "Paper tidak menyebut sumber unduhan; jazz.00054 tidak bisa dibaca"
+  },
+  {
+    "aspek": "Segmentasi",
+    "paper": "30 s -> 3 s, penanganan sisa tidak disebut",
+    "kita": "10 segmen non-overlap; 9 klip < 30 s di-zero-pad, kelebihan dipotong",
+    "alasan": "Agar tiap lagu tepat 10 segmen"
+  },
+  {
+    "aspek": "Split",
+    "paper": "8:1:1, level tidak disebut",
+    "kita": "Protokol A per-segmen (dugaan paper) & B per-lagu, stratified, seed 42",
+    "alasan": "Ambiguitas paper; B untuk mengukur dampak leakage"
+  },
+  {
+    "aspek": "Parameter STFT",
+    "paper": "Sec 3.2: n_fft 1024/hop 512, shape (128,129); Sec 4: window 2048/hop 512, shape (640,128)",
+    "kita": "Dua konfigurasi diuji: mel_1024 & mel_2048, Hann, center=True -> (128,130)",
+    "alasan": "Paper tidak konsisten; shape (640,128) tidak bisa diturunkan dari segmen 3 s"
+  },
+  {
+    "aspek": "MFCC",
+    "paper": "13–20 koefisien, parameter framing tidak disebut",
+    "kita": "20 koefisien dari log-mel 128 band, n_fft 2048, hop 512",
+    "alasan": "Nilai pasti tidak disebut; 20 = default librosa"
+  },
+  {
+    "aspek": "Skala amplitudo",
+    "paper": "Log/dB, referensi tidak disebut",
+    "kita": "power_to_db(ref=1.0)",
+    "alasan": "Referensi tidak disebut"
+  },
+  {
+    "aspek": "Arsitektur Bi-RNN",
+    "paper": "Teks: 1 Bi-layer 128 + 1 RNN 128; Tabel 1: 3 layer RNN",
+    "kita": "Mengikuti Tabel 1: 3 layer (128-128-64), masing-masing dibungkus Bidirectional",
+    "alasan": "Teks & tabel bertentangan; pilih desain seragam untuk 4 varian"
+  },
+  {
+    "aspek": "Pooling & reshape",
+    "paper": "Ukuran pooling, padding, cara CNN->RNN tidak disebut",
+    "kita": "MaxPool 2x2 padding 'same' tiap blok; sumbu waktu jadi barisan RNN (5 langkah)",
+    "alasan": "Asumsi paling sederhana yang kompatibel dg input mel (128) & MFCC (20)"
+  },
+  {
+    "aspek": "Hiperparameter training",
+    "paper": "Optimizer, batch size, loss, lebar dense tidak disebut",
+    "kita": "Adam lr 1e-3, batch 64, sparse categorical cross-entropy, dense 128 ReLU",
+    "alasan": "Pilihan standar; lr 0.001 dari baris Tabel 1 yang salah label"
+  },
+  {
+    "aspek": "Normalisasi input",
+    "paper": "Tidak disebut",
+    "kita": "z-score per bin frekuensi/koefisien, statistik dari train set tiap protokol",
+    "alasan": "Skala MFCC sangat timpang (koef-0 dominan); cegah kebocoran statistik test"
+  },
+  {
+    "aspek": "Pemilihan model",
+    "paper": "Tidak disebut",
+    "kita": "Bobot epoch dengan val_accuracy terbaik (restore_best_weights)",
+    "alasan": "Praktik standar"
+  },
+  {
+    "aspek": "Stabilitas training",
+    "paper": "Tidak dilaporkan (single run, tanpa seed)",
+    "kita": "CNN+LSTM mel_1024 Protokol A diulang 3 seed (42, 43, 44) + 1 run clipnorm 1.0",
+    "alasan": "Run seed 42 divergen; hasil gagal tetap dilaporkan, clipnorm hanya untuk diagnosis"
+  },
+  {
+    "aspek": "Learning rate CNN+LSTM",
+    "paper": "lr 0.001 (nilai 'teroptimasi' dari kandidat {0.1, 0.01, 0.001, 0.0001})",
+    "kita": "CNN+LSTM mel_1024 memakai lr 0.0001; model lain tetap 0.001",
+    "alasan": "lr 0.001 menyebabkan kolaps (dead ReLU / gradien meledak, lihat fig_diagnosa_lstm); 0.0001 masih dalam ruang pencarian paper"
+  }
+]
